@@ -445,6 +445,8 @@
 <body>
 <div class="app">
 
+  <div id="debug-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#FFE14D;color:#111;font-family:monospace;font-size:13px;padding:10px 14px;line-height:1.4;word-break:break-all;"></div>
+
   <div class="topbar">
     <div class="lock-badge">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
@@ -1203,16 +1205,23 @@
   $('btn-retry-restart').addEventListener('click', resetAll);
   $('btn-new-analysis').addEventListener('click', resetAll);
 
+  function showDebugBanner(text){
+    const el = $('debug-banner');
+    el.textContent = text;
+    el.style.display = 'block';
+  }
+
   $('fileInput').addEventListener('change', (e) => {
     const files = e.target.files;
-    alert('DIAGNOSE — bestandenveld meldt: ' + (files ? files.length : 'geen FileList') + ' bestand(en)' + (files && files.length ? (' — eerste: ' + files[0].name) : ''));
+    showDebugBanner('DIAGNOSE — change-event ontving: ' + (files ? files.length : 'geen FileList') + ' bestand(en)' + (files && files.length ? (' — eerste: ' + files[0].name) : '') + '  [tik hier om te verbergen]');
     handleIncomingFiles(files);
   });
   $('dirInput').addEventListener('change', (e) => {
     const files = e.target.files;
-    alert('DIAGNOSE (map) — bestandenveld meldt: ' + (files ? files.length : 'geen FileList') + ' bestand(en)');
+    showDebugBanner('DIAGNOSE (map) — change-event ontving: ' + (files ? files.length : 'geen FileList') + ' bestand(en)  [tik hier om te verbergen]');
     handleIncomingFiles(files);
   });
+  $('debug-banner').addEventListener('click', () => { $('debug-banner').style.display = 'none'; });
 
   const dz = $('dropzone');
   dz.addEventListener('click', () => $('fileInput').click());
