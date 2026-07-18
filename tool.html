@@ -1198,8 +1198,8 @@
   }
 
   // ---------- Wiring ----------
-  $('btn-choose').addEventListener('click', () => $('fileInput').click());
-  $('btn-choose-folder').addEventListener('click', () => $('dirInput').click());
+  $('btn-choose').addEventListener('click', (e) => { e.stopPropagation(); $('fileInput').click(); });
+  $('btn-choose-folder').addEventListener('click', (e) => { e.stopPropagation(); $('dirInput').click(); });
   $('btn-add-more').addEventListener('click', () => $('fileInput').click());
   $('btn-retry-add').addEventListener('click', () => $('fileInput').click());
   $('btn-retry-restart').addEventListener('click', resetAll);
