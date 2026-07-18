@@ -108,6 +108,15 @@
   }
 
   .hidden{display:none !important;}
+  .visually-hidden-input{
+    position:absolute;
+    width:1px;height:1px;
+    padding:0;margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
 
   /* Upload panel */
   .dropzone{
@@ -472,8 +481,8 @@
       </details>
     </div>
 
-    <input type="file" id="fileInput" class="hidden" multiple>
-    <input type="file" id="dirInput" class="hidden" multiple webkitdirectory directory>
+    <input type="file" id="fileInput" class="visually-hidden-input" multiple>
+    <input type="file" id="dirInput" class="visually-hidden-input" multiple webkitdirectory directory>
   </section>
 
   <!-- ================= PANEL: PROCESSING ================= -->
@@ -1194,8 +1203,16 @@
   $('btn-retry-restart').addEventListener('click', resetAll);
   $('btn-new-analysis').addEventListener('click', resetAll);
 
-  $('fileInput').addEventListener('change', (e) => handleIncomingFiles(e.target.files));
-  $('dirInput').addEventListener('change', (e) => handleIncomingFiles(e.target.files));
+  $('fileInput').addEventListener('change', (e) => {
+    const files = e.target.files;
+    alert('DIAGNOSE — bestandenveld meldt: ' + (files ? files.length : 'geen FileList') + ' bestand(en)' + (files && files.length ? (' — eerste: ' + files[0].name) : ''));
+    handleIncomingFiles(files);
+  });
+  $('dirInput').addEventListener('change', (e) => {
+    const files = e.target.files;
+    alert('DIAGNOSE (map) — bestandenveld meldt: ' + (files ? files.length : 'geen FileList') + ' bestand(en)');
+    handleIncomingFiles(files);
+  });
 
   const dz = $('dropzone');
   dz.addEventListener('click', () => $('fileInput').click());
