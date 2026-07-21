@@ -170,6 +170,14 @@
     text-align:center;
   }
 
+  /* Uitpakken/een hele map selecteren is vrijwel uitsluitend een desktop-scenario
+     (en werkt op mobiel bovendien onbetrouwbaar) — dus deze link alleen tonen
+     vanaf een schermbreedte waar dat realistisch is. */
+  .desktop-only-note{display:none;}
+  @media (min-width:640px){
+    .desktop-only-note{display:block;}
+  }
+
   details.help{
     margin-top:16px;
     border-top:1px solid var(--border);
@@ -329,7 +337,6 @@
     color:var(--text-faint);
     flex:none;
   }
-  .blurred{filter:blur(6px);user-select:none;pointer-events:none;}
   .lock-overlay{
     position:absolute;
     inset:0;
@@ -463,15 +470,15 @@
     <div class="card">
       <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Bestanden kiezen of hierheen slepen">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4m0 0L7 9m5-5l5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
-        <h3>Sleep je bestand hierheen</h3>
-        <p id="dropzone-sub">ZIP-export, of losse JSON-/HTML-bestanden</p>
+        <h3>Voeg je export toe</h3>
+        <p id="dropzone-sub">Je ZIP-bestand van Instagram</p>
         <button class="btn btn-primary" id="btn-choose">Kies bestanden</button>
       </div>
       <div class="upload-alt">
-        <button class="btn btn-ghost" id="btn-choose-folder">Map uploaden</button>
         <button class="btn btn-ghost" id="btn-add-more" style="display:none;">Nog bestanden toevoegen</button>
       </div>
-      <p class="formats-note">Ondersteunt: volledige .zip · meerdere .json · meerdere .html · een uitgepakte map</p>
+      <p class="formats-note">Ondersteunt het ZIP-bestand dat je rechtstreeks van Instagram krijgt.</p>
+      <p class="formats-note desktop-only-note" style="margin-top:6px;">Al uitgepakt? <a id="link-choose-folder" style="text-decoration:underline;cursor:pointer;color:var(--text-muted);">Upload de hele map</a> in plaats van losse bestanden te zoeken.</p>
 
       <details class="help">
         <summary>Waar vind ik mijn Instagram-export?</summary>
@@ -533,23 +540,11 @@
         <div class="stat positive"><div class="num" id="stat-mutual">–</div><div class="lbl">Wederzijds</div></div>
         <div class="stat accent"><div class="num" id="stat-notback">–</div><div class="lbl">Volgt jou niet terug</div></div>
       </div>
-      <p id="ignored-note" class="formats-note hidden" style="margin-top:14px;text-align:left;"></p>
-
       <details class="help" id="sources-details">
         <summary>Bronbestanden bekeken (<span id="sources-count">0</span>)</summary>
         <div class="help-body" id="sources-body"></div>
         <button class="icon-btn" id="btn-copy-diagnostics-results" style="margin-top:10px;width:100%;">Kopieer diagnosegegevens</button>
       </details>
-    </div>
-
-    <div class="card paywall-card hidden" id="paywall" style="margin-top:14px;">
-      <div class="price-row"><span class="price">€2,99</span><span class="price-note">eenmalig, voor deze momentopname</span></div>
-      <ul>
-        <li>Volledige lijst van accounts die je niet terugvolgen</li>
-        <li>Ook zichtbaar: wie jou volgt, maar jij niet terug</li>
-        <li>Doorzoeken en exporteren als bestand</li>
-      </ul>
-      <button class="btn btn-primary btn-block" id="btn-unlock">Ontgrendel volledige resultaten</button>
     </div>
 
     <div id="notback-preview-section">
@@ -561,6 +556,16 @@
           <p>Ontgrendel de volledige lijst om alle namen te zien</p>
         </div>
       </div>
+    </div>
+
+    <div class="card paywall-card hidden" id="paywall" style="margin-top:14px;">
+      <div class="price-row"><span class="price">€2,99</span><span class="price-note">eenmalig, voor deze momentopname</span></div>
+      <ul>
+        <li>Volledige lijst van accounts die je niet terugvolgen</li>
+        <li>Ook zichtbaar: wie jou volgt, maar jij niet terug</li>
+        <li>Doorzoeken en exporteren als bestand</li>
+      </ul>
+      <button class="btn btn-primary btn-block" id="btn-unlock">Ontgrendel volledige resultaten</button>
     </div>
 
     <div id="unlocked-area" class="hidden">
@@ -870,6 +875,27 @@
   }
 
   // ---------- Rendering ----------
+  function maskUsername(username){
+    const visible = username.slice(0, 1);
+    return visible + '•••';
+  }
+
+  function renderPreviewItem(entry){
+    const li = document.createElement('li');
+    const span = document.createElement('span');
+    span.className = 'uname';
+    span.textContent = '@' + maskUsername(entry.username);
+    li.appendChild(span);
+    if (entry.timestamp) {
+      const since = document.createElement('span');
+      since.className = 'since';
+      const d = new Date(entry.timestamp * 1000);
+      since.textContent = d.toLocaleDateString('nl-NL', { year:'numeric', month:'short' });
+      li.appendChild(since);
+    }
+    return li;
+  }
+
   function renderNameListItem(entry){
     const li = document.createElement('li');
     const link = document.createElement('a');
@@ -912,7 +938,7 @@
     if (state.ignored.length) {
       const p = document.createElement('p');
       p.style.marginTop = '10px';
-      p.textContent = 'Genegeerd: ' + state.ignored.map(basename).join(', ');
+      p.textContent = `Ook gezien, maar genegeerd (niet relevant voor deze analyse): ${state.ignored.map(basename).join(', ')}`;
       body.appendChild(p);
     }
   }
@@ -934,9 +960,7 @@
     previewList.innerHTML = '';
     const previewCount = Math.min(4, d.notFollowingBack.length);
     for (let i=0;i<previewCount;i++){
-      const li = renderNameListItem(d.notFollowingBack[i], true);
-      if (!state.unlocked) li.classList.add('blurred');
-      previewList.appendChild(li);
+      previewList.appendChild(renderPreviewItem(d.notFollowingBack[i]));
     }
     if (d.notFollowingBack.length === 0) {
       const li = document.createElement('li');
@@ -953,14 +977,6 @@
     // stiekem een andere/nieuwe export doorheen te fietsen met dezelfde
     // betaling — daarvoor moet "Nieuwe analyse starten" gebruikt worden.
     $('btn-add-more').style.display = state.unlocked ? 'none' : '';
-
-    const ignoredNote = $('ignored-note');
-    if (state.ignored.length) {
-      ignoredNote.classList.remove('hidden');
-      ignoredNote.textContent = `Ook gezien, maar genegeerd (niet relevant voor deze analyse): ${state.ignored.map(basename).join(', ')}`;
-    } else {
-      ignoredNote.classList.add('hidden');
-    }
 
     renderSourcesDiagnostics();
 
@@ -1197,7 +1213,7 @@
 
   // ---------- Wiring ----------
   $('btn-choose').addEventListener('click', (e) => { e.stopPropagation(); $('fileInput').click(); });
-  $('btn-choose-folder').addEventListener('click', (e) => { e.stopPropagation(); $('dirInput').click(); });
+  $('link-choose-folder').addEventListener('click', (e) => { e.stopPropagation(); $('dirInput').click(); });
   $('btn-add-more').addEventListener('click', () => $('fileInput').click());
   $('btn-retry-add').addEventListener('click', () => $('fileInput').click());
   $('btn-retry-restart').addEventListener('click', resetAll);
