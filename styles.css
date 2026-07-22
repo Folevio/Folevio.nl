@@ -116,6 +116,11 @@ p{margin:0;color:var(--text-muted);}
 }
 .nav-link:hover{color:var(--text);}
 
+@media (max-width:560px){
+  .nav-link{display:none;}
+  .nav-actions{gap:0;}
+}
+
 /* ---------- Buttons ---------- */
 
 .btn{
@@ -173,38 +178,6 @@ p{margin:0;color:var(--text-muted);}
   position:relative;
   max-width:640px;margin:0 auto;
 }
-.flow-line{
-  position:absolute;
-  left:56px;right:56px;top:32px;
-  height:2px;
-  background:var(--border);
-  z-index:0;
-}
-.flow-dot{
-  position:absolute;
-  top:26px;left:56px;right:56px;
-  height:10px;
-  z-index:1;
-  animation:travel 3.6s ease-in-out infinite;
-  animation-play-state:paused;
-  will-change:transform;
-}
-.flow-dot::before{
-  content:"";
-  position:absolute;
-  top:0;left:0;
-  width:10px;height:10px;border-radius:50%;
-  background:var(--coral);
-  box-shadow:0 0 0 4px var(--coral-dim);
-}
-@keyframes travel{
-  0%{transform:translateX(0); opacity:0;}
-  8%{opacity:1;}
-  46%{transform:translateX(calc(100% - 10px)); opacity:1;}
-  54%{opacity:0;}
-  100%{transform:translateX(0); opacity:0;}
-}
-
 .flow-node{
   position:relative;z-index:2;
   flex:1;
@@ -217,19 +190,23 @@ p{margin:0;color:var(--text-muted);}
   border:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;
   box-shadow:var(--shadow-sm);
+  animation:step-highlight 4.8s ease-in-out infinite;
+  animation-play-state:paused;
+  will-change:transform;
 }
-.flow-icon svg{width:26px;height:26px;color:var(--text);}
+.flow-icon svg{width:26px;height:26px;color:var(--text);transition:color .15s ease;}
 .flow-label{font-size:13px;font-weight:600;color:var(--text);}
 
-.flow-node.browser .flow-icon{
-  border-color:var(--teal);
-  animation:pulse-ring 2.4s ease-in-out infinite;
-  animation-play-state:paused;
-}
-.flow-node.browser .flow-icon svg{color:var(--teal);}
-@keyframes pulse-ring{
-  0%,100%{box-shadow:0 0 0 0 rgba(14,143,121,.18);}
-  50%{box-shadow:0 0 0 8px rgba(14,143,121,0);}
+/* Vier iconen, ieder met hun eigen vertraging, zodat ze om de beurt
+   oplichten ("tik, tik, tik, tik") in plaats van één doorlopende beweging. */
+.flow-node:nth-child(1) .flow-icon{animation-delay:0s;}
+.flow-node:nth-child(2) .flow-icon{animation-delay:1.2s;}
+.flow-node:nth-child(3) .flow-icon{animation-delay:2.4s;}
+.flow-node:nth-child(4) .flow-icon{animation-delay:3.6s;}
+
+@keyframes step-highlight{
+  0%,92%,100%{border-color:var(--border);box-shadow:var(--shadow-sm);transform:scale(1);}
+  4%,18%{border-color:var(--coral);box-shadow:0 0 0 5px var(--coral-dim);transform:scale(1.06);}
 }
 
 .flow-progress{
@@ -242,14 +219,14 @@ p{margin:0;color:var(--text-muted);}
   background:var(--coral);
   transform:scaleX(0);
   transform-origin:left;
-  animation:fillbar 3.6s ease-in-out infinite;
+  animation:fillbar-step 4.8s ease-in-out infinite;
   animation-play-state:paused;
   will-change:transform;
 }
-@keyframes fillbar{
-  0%{transform:scaleX(0);}
-  50%{transform:scaleX(1);}
-  100%{transform:scaleX(1);}
+@keyframes fillbar-step{
+  0%,50%{transform:scaleX(0);}
+  68%,75%{transform:scaleX(1);}
+  100%{transform:scaleX(0);}
 }
 
 .flow-result-num{
@@ -265,8 +242,7 @@ p{margin:0;color:var(--text-muted);}
 }
 .flow-nocloud svg{width:22px;height:22px;color:var(--coral-deep);flex:none;}
 
-.flow.in-view .flow-dot,
-.flow.in-view .flow-node.browser .flow-icon,
+.flow.in-view .flow-icon,
 .flow.in-view .flow-progress-fill{
   animation-play-state:running;
 }
@@ -274,13 +250,12 @@ p{margin:0;color:var(--text-muted);}
 @media (max-width:640px){
   .flow{padding:32px 18px 28px;}
   .flow-steps{flex-direction:column;gap:26px;}
-  .flow-line,.flow-dot{display:none;}
   .flow-icon{width:52px;height:52px;}
 }
 
 @media (prefers-reduced-motion: reduce){
-  .flow-dot,.flow-node.browser .flow-icon,.flow-progress-fill{animation:none;}
-  .flow-progress-fill{width:70%;}
+  .flow-icon,.flow-progress-fill{animation:none;}
+  .flow-progress-fill{transform:scaleX(.7);}
 }
 
 /* ---------- Trust cards ---------- */
