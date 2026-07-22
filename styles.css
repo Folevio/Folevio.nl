@@ -189,7 +189,7 @@ p{margin:0;color:var(--text-muted);}
   border:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;
   box-shadow:var(--shadow-sm);
-  transition:border-color .3s ease, box-shadow .3s ease;
+  transition:none;
 }
 .flow-icon svg{width:26px;height:26px;color:var(--text);}
 .flow-label{font-size:13px;font-weight:600;color:var(--text);}
