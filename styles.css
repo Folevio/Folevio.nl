@@ -106,9 +106,7 @@ p{margin:0;color:var(--text-muted);}
 }
 .brand-mark{
   width:26px;height:26px;border-radius:8px;
-  background:var(--coral);
-  display:flex;align-items:center;justify-content:center;
-  color:#fff;font-size:13px;font-weight:700;
+  flex:none;
 }
 .nav-actions{display:flex;align-items:center;gap:20px;}
 .nav-link{
@@ -191,22 +189,17 @@ p{margin:0;color:var(--text-muted);}
   border:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;
   box-shadow:var(--shadow-sm);
-  animation:step-highlight 6s ease-in-out infinite;
-  animation-play-state:paused;
+  transition:border-color .3s ease, box-shadow .3s ease;
 }
 .flow-icon svg{width:26px;height:26px;color:var(--text);}
 .flow-label{font-size:13px;font-weight:600;color:var(--text);}
 
-/* Elk icoon licht om de beurt op (rand + gloed, geen formaatverandering),
-   identiek op elk schermformaat. */
-.flow-node:nth-child(1) .flow-icon{animation-delay:0s;}
-.flow-node:nth-child(2) .flow-icon{animation-delay:1.5s;}
-.flow-node:nth-child(3) .flow-icon{animation-delay:3s;}
-.flow-node:nth-child(4) .flow-icon{animation-delay:4.5s;}
-
-@keyframes step-highlight{
-  0%,92%,100%{border-color:var(--border);box-shadow:var(--shadow-sm);}
-  4%,18%{border-color:var(--coral);box-shadow:0 0 0 5px var(--coral-dim);}
+/* Precies één icoon tegelijk actief. JavaScript bepaalt welke, dat
+   voorkomt de timing-onbetrouwbaarheid van CSS animation-delay
+   gecombineerd met pauzeren/hervatten. */
+.flow-icon.active{
+  border-color:var(--coral);
+  box-shadow:0 0 0 5px var(--coral-dim);
 }
 
 .flow-progress{
@@ -219,14 +212,11 @@ p{margin:0;color:var(--text-muted);}
   background:var(--coral);
   transform:scaleX(0);
   transform-origin:left;
-  animation:fillbar-step 6s ease-in-out infinite;
-  animation-play-state:paused;
+  transition:transform 1.1s ease-in-out;
   will-change:transform;
 }
-@keyframes fillbar-step{
-  0%,50%{transform:scaleX(0);}
-  68%,75%{transform:scaleX(1);}
-  100%{transform:scaleX(0);}
+.flow-progress-fill.active{
+  transform:scaleX(1);
 }
 
 .flow-result-num{
@@ -242,11 +232,6 @@ p{margin:0;color:var(--text-muted);}
 }
 .flow-nocloud svg{width:22px;height:22px;color:var(--coral-deep);flex:none;}
 
-.flow.in-view .flow-icon,
-.flow.in-view .flow-progress-fill{
-  animation-play-state:running;
-}
-
 @media (max-width:640px){
   .flow{padding:32px 18px 28px;}
   .flow-steps{flex-direction:column;gap:26px;}
@@ -254,8 +239,7 @@ p{margin:0;color:var(--text-muted);}
 }
 
 @media (prefers-reduced-motion: reduce){
-  .flow-icon,.flow-progress-fill{animation:none;}
-  .flow-progress-fill{transform:scaleX(.7);}
+  .flow-icon,.flow-progress-fill{transition:none;}
 }
 
 /* ---------- Trust cards ---------- */
