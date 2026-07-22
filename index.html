@@ -192,34 +192,79 @@
         <h2>Nog vragen?</h2>
       </div>
       <div class="faq-list">
+
+        <div class="faq-category">Privacy &amp; veiligheid</div>
         <details class="faq-item">
           <summary>Worden mijn gegevens geüpload?</summary>
           <p>Nee. Je bestand wordt in je browser gelezen en verwerkt, met JavaScript dat lokaal draait. Er wordt niets naar een server gestuurd — Folevio heeft geen server die jouw gegevens ooit te zien krijgt.</p>
         </details>
         <details class="faq-item">
-          <summary>Is Folevio gratis?</summary>
-          <p>De momentopname (aantallen en een voorproefje) is gratis. De volledige lijst ontgrendel je met een eenmalige betaling per analyse.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Welke Instagram-export heb ik nodig?</summary>
-          <p>De officiële export die je zelf bij Instagram aanvraagt (Instellingen → Accountcentrum → Jouw informatie en rechten → Info downloaden). Zowel de JSON- als de HTML-versie werken.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Hoe lang duurt de analyse?</summary>
-          <p>Meestal een paar seconden. Bij een heel grote export (tienduizenden volgers) kan het inlezen iets langer duren, maar alles blijft binnen je eigen browser gebeuren.</p>
+          <summary>Is mijn data veilig?</summary>
+          <p>Je data verlaat je apparaat nooit, dus er is niets om te onderscheppen of te lekken.</p>
         </details>
         <details class="faq-item">
           <summary>Waarom hoef ik niet in te loggen?</summary>
           <p>Omdat Folevio niet rechtstreeks met Instagram praat. De tool leest alleen het exportbestand dat jij zelf al eerder bij Instagram hebt gedownload — daar is geen login voor nodig.</p>
         </details>
         <details class="faq-item">
-          <summary>Is mijn data veilig?</summary>
-          <p>Je data verlaat je apparaat nooit, dus er is niets om te onderscheppen of te lekken. De broncode van Folevio is bovendien openbaar in te zien.</p>
+          <summary>Kan ik de broncode zelf bekijken?</summary>
+          <p>Ja. De volledige code van Folevio staat publiek op GitHub, zodat je (of iemand die het voor je kan beoordelen) precies kan nagaan dat er inderdaad niets wordt verstuurd of opgeslagen.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Wat gebeurt er met mijn gegevens als ik de pagina sluit?</summary>
+          <p>Alles verdwijnt automatisch. Er wordt niets op je apparaat bewaard — geen lokale opslag, geen cache van je gegevens. Sluit of ververs je de pagina, dan is alles weg. Binnen de tool kun je dit ook zelf op elk moment forceren via "Alles wissen uit het geheugen".</p>
+        </details>
+
+        <div class="faq-category">De export &amp; bestanden</div>
+        <details class="faq-item">
+          <summary>Welke Instagram-export heb ik nodig?</summary>
+          <p>De officiële export die je zelf bij Instagram aanvraagt (Instellingen → Accountcentrum → Jouw informatie en rechten → Info downloaden). Zowel de JSON- als de HTML-versie werken.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Moet het per se een ZIP-bestand zijn?</summary>
+          <p>Dat is de simpelste en aanbevolen manier, maar niet de enige. Heb je je export al zelf uitgepakt, dan kun je ook de losse bestanden (of de hele map) rechtstreeks selecteren — de tool herkent zelf wat erin zit.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Wat als een bestand ontbreekt of niet herkend wordt?</summary>
+          <p>Dan laat de tool precies zien wat er al wel gevonden is en wat nog ontbreekt, met de mogelijkheid om alleen het ontbrekende bestand toe te voegen — je hoeft niet opnieuw te beginnen.</p>
         </details>
         <details class="faq-item">
           <summary>Waarom laat de analyse meer accounts zien dan mijn "volgend"-aantal in de Instagram-app?</summary>
           <p>Dat komt door accounts die inmiddels permanent verwijderd zijn. Instagram haalt zulke accounts uit het aantal dat je live in de app ziet, maar in je officiële exportbestand blijven ze gewoon staan. Deze accounts tellen in de analyse dus wél mee, ook al zie je ze niet meer terug in de app zelf.</p>
         </details>
+
+        <div class="faq-category">Gebruik &amp; resultaten</div>
+        <details class="faq-item">
+          <summary>Hoe lang duurt de analyse?</summary>
+          <p>Meestal een paar seconden. Bij een heel grote export (tienduizenden volgers) kan het inlezen iets langer duren, maar alles blijft binnen je eigen browser gebeuren.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Werkt dit ook bij een account met heel veel volgers?</summary>
+          <p>Ja — getest tot 100.000 volgers, inclusief exports die Instagram zelf al in tientallen losse bestanden opsplitst. De tool voegt die automatisch samen.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Kan ik dit ook op mijn telefoon gebruiken?</summary>
+          <p>Ja, Folevio is in de eerste plaats voor mobiel gebouwd en getest, naast desktop.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Kan ik de resultaten bewaren of delen?</summary>
+          <p>Ja, na het ontgrendelen kun je de volledige lijst exporteren als PDF (met klikbare profiellinks) of als CSV-bestand.</p>
+        </details>
+
+        <div class="faq-category">Kosten &amp; ontgrendeling</div>
+        <details class="faq-item">
+          <summary>Is Folevio gratis?</summary>
+          <p>De momentopname (aantallen en een voorproefje) is gratis. De volledige lijst ontgrendel je met een eenmalige betaling per analyse.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Wat krijg ik precies voor de eenmalige betaling?</summary>
+          <p>De volledige lijst van accounts die jou niet terugvolgen, plus het omgekeerde overzicht (wie jij niet terugvolgt), inclusief doorzoeken en exporteren.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Moet ik opnieuw betalen als ik een nieuwe analyse doe?</summary>
+          <p>Ja, één betaling geldt voor één momentopname. Start je een volledig nieuwe analyse (bijvoorbeeld later, met een vernieuwde export), dan ontgrendel je die apart.</p>
+        </details>
+
       </div>
     </div>
   </section>
