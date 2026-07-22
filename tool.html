@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Wie volgt niet terug — lokale Instagram-analyse</title>
+<title>Wie volgt niet terug | lokale Instagram-analyse</title>
 <meta name="description" content="Ontdek lokaal en privé wie je op Instagram volgt maar jou niet terugvolgt. Niets wordt geüpload.">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -191,7 +191,7 @@
     list-style:none;
   }
   details.help summary::-webkit-details-marker{display:none;}
-  details.help summary:before{content:"— ";color:var(--coral);}
+  details.help summary:before{content:"+ ";color:var(--coral);}
   details.help .help-body{
     margin-top:10px;
     font-size:13px;
@@ -448,8 +448,8 @@
   <!-- ================= PANEL: UPLOAD ================= -->
   <section id="panel-upload">
     <div class="hero">
-      <h1>Wie volg jij, die <span class="accent">jou niet terugvolgt</span>?</h1>
-      <p>Upload je Instagram-export. Alles wordt in je eigen browser geanalyseerd — er wordt niets verstuurd of bewaard op een server.</p>
+      <h1>Check wie jou <span class="accent">niet terugvolgt</span></h1>
+      <p>Upload je Instagram-export. Alles wordt in je eigen browser geanalyseerd. Er wordt niets verstuurd of bewaard op een server.</p>
     </div>
 
     <div class="card">
@@ -468,7 +468,7 @@
       <details class="help">
         <summary>Waar vind ik mijn Instagram-export?</summary>
         <div class="help-body">
-          Ga in de Instagram-app naar <b>Instellingen → Accountcentrum → Jouw informatie en rechten → Info downloaden</b>, kies je account, en exporteer als <code>JSON</code> of <code>HTML</code>. Je krijgt een ZIP-bestand; upload dat hierboven. Je hoeft zelf niets uit te pakken of te zoeken — dat doet deze pagina voor je.
+          Ga in de Instagram-app naar <b>Instellingen → Accountcentrum → Jouw informatie en rechten → Info downloaden</b>, kies je account, en exporteer als <code>JSON</code> of <code>HTML</code>. Je krijgt een ZIP-bestand, upload dat hierboven. Je hoeft zelf niets uit te pakken of te zoeken, dat doet deze pagina voor je.
         </div>
       </details>
     </div>
@@ -497,7 +497,7 @@
       <button class="btn btn-ghost btn-block" id="btn-retry-restart">Opnieuw beginnen</button>
       <div style="height:8px;"></div>
       <button class="btn btn-ghost btn-block" id="btn-copy-diagnostics-error">Kopieer diagnosegegevens</button>
-      <p class="formats-note" style="margin-top:8px;">Bevat geen gebruikersnamen — alleen bestandsnamen, aantallen en browserinfo. Plak dit in een mailtje als je hulp nodig hebt.</p>
+      <p class="formats-note" style="margin-top:8px;">Bevat geen gebruikersnamen, alleen bestandsnamen, aantallen en browserinfo. Plak dit in een mailtje als je hulp nodig hebt.</p>
     </div>
   </section>
 
@@ -543,7 +543,7 @@
     </div>
 
     <div id="unlocked-area" class="hidden">
-      <div class="section-title">Volgt jou niet terug — volledige lijst</div>
+      <div class="section-title">Volgt jou niet terug: volledige lijst</div>
       <div class="card">
         <div class="toolbar">
           <input class="search-input" id="search-notback" placeholder="Zoek op gebruikersnaam…">
@@ -570,7 +570,7 @@
   </section>
 
   <div class="footer-note">
-    Bestanden verlaten je apparaat nooit — deze pagina praat niet met een server.<br>
+    Bestanden verlaten je apparaat nooit. Deze pagina praat niet met een server.<br>
     Deze pagina laadt bewust geen lettertypes of trackers van externe partijen.<br>
     <a id="link-reset-privacy">Alles wissen uit het geheugen</a>
   </div>
@@ -582,7 +582,7 @@
     <h3>Eenmalige betaling</h3>
     <p id="modal-text">Simuleer een betaling van €2,99 om je volledige resultaten te ontgrendelen. In een live versie loopt dit via een echte betaalprovider en wordt de betaling server-side geverifieerd.</p>
     <div class="modal-actions">
-      <button class="btn btn-primary" id="btn-pay-confirm">Simuleer betaling — €2,99</button>
+      <button class="btn btn-primary" id="btn-pay-confirm">Simuleer betaling: €2,99</button>
       <button class="btn btn-ghost" id="btn-pay-cancel">Annuleren</button>
     </div>
   </div>
@@ -932,7 +932,7 @@
     }
     if (d.notFollowingBack.length === 0) {
       const li = document.createElement('li');
-      li.textContent = 'Niemand — je hebt alleen wederzijdse volgers. 🎉';
+      li.textContent = 'Niemand. Je hebt alleen wederzijdse volgers.';
       previewList.appendChild(li);
     }
 
@@ -1042,14 +1042,14 @@
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(15);
     doc.setTextColor(20,20,20);
-    doc.text('Instagram — ' + title, marginX, y);
+    doc.text('Instagram: ' + title, marginX, y);
     y += 7;
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9.5);
     doc.setTextColor(120,120,120);
     doc.text(
-      `Gegenereerd op ${new Date().toLocaleDateString('nl-NL', { day:'numeric', month:'long', year:'numeric' })} — ${items.length.toLocaleString('nl-NL')} account(s) — lokaal gemaakt, niet gedeeld met een server`,
+      `Gegenereerd op ${new Date().toLocaleDateString('nl-NL', { day:'numeric', month:'long', year:'numeric' })}. ${items.length.toLocaleString('nl-NL')} account(s). Lokaal gemaakt, niet gedeeld met een server.`,
       marginX, y
     );
     y += 7;
@@ -1084,7 +1084,7 @@
       doc.setFontSize(9.5);
       doc.setTextColor(180,90,70);
       doc.text(
-        `Toont de eerste ${PDF_MAX_ROWS.toLocaleString('nl-NL')} van ${items.length.toLocaleString('nl-NL')} — gebruik de CSV-export voor de volledige lijst.`,
+        `Toont de eerste ${PDF_MAX_ROWS.toLocaleString('nl-NL')} van ${items.length.toLocaleString('nl-NL')}. Gebruik de CSV-export voor de volledige lijst.`,
         marginX, y
       );
     }
@@ -1119,11 +1119,11 @@
     }
 
     addNeed(hasFollowers, hasFollowers
-      ? `Volgers gevonden — <b>${state.followers.size}</b> accounts`
-      : `Volgers-bestand ontbreekt — meestal genaamd <b>followers_1.json</b> of gevonden in een HTML-pagina met "followers" in de titel`);
+      ? `Volgers gevonden: <b>${state.followers.size}</b> accounts`
+      : `Volgers-bestand ontbreekt, meestal genaamd <b>followers_1.json</b> of gevonden in een HTML-pagina met "followers" in de titel`);
     addNeed(hasFollowing, hasFollowing
-      ? `Volgend gevonden — <b>${state.following.size}</b> accounts`
-      : `Volgend-bestand ontbreekt — meestal genaamd <b>following.json</b> of een HTML-pagina met "following" in de titel`);
+      ? `Volgend gevonden: <b>${state.following.size}</b> accounts`
+      : `Volgend-bestand ontbreekt, meestal genaamd <b>following.json</b> of een HTML-pagina met "following" in de titel`);
 
     if (state.unmatched.length) {
       const li = document.createElement('li');
@@ -1135,7 +1135,7 @@
       $('error-title').textContent = 'We hebben nog geen bruikbare gegevens gevonden';
       $('error-lede').textContent = 'Upload de ZIP die je van Instagram hebt gekregen, of de losse bestanden followers_1.json en following.json (of hun HTML-versies).';
     } else {
-      $('error-title').textContent = 'Bijna klaar — er ontbreekt nog iets';
+      $('error-title').textContent = 'Bijna klaar. Er ontbreekt nog iets';
       $('error-lede').textContent = 'Voeg het ontbrekende bestand toe, dan vullen we de analyse verder aan.';
     }
 
@@ -1210,7 +1210,7 @@
       state.unlocked = true;
       $('modal-backdrop').classList.add('hidden');
       $('btn-pay-confirm').disabled = false;
-      $('btn-pay-confirm').textContent = 'Simuleer betaling — €2,99';
+      $('btn-pay-confirm').textContent = 'Simuleer betaling: €2,99';
       const d = renderResults();
       wireSearch('search-notback', 'notback-list-full', d.notFollowingBack);
       wireSearch('search-fans', 'fans-list-full', d.fansYouDontFollow);
@@ -1235,7 +1235,7 @@
 
   function buildDiagnosticsText(){
     const lines = [];
-    lines.push('Diagnose — Wie volgt niet terug');
+    lines.push('Diagnose: Wie volgt niet terug');
     lines.push('Tijdstip: ' + new Date().toISOString());
     lines.push('Scherm: ' + window.innerWidth + '×' + window.innerHeight);
     lines.push('Browser: ' + navigator.userAgent);
