@@ -285,21 +285,6 @@
   .stat.accent .num{color:var(--coral);}
   .stat.positive .num{color:var(--teal);}
 
-  /* Venn signature */
-  .venn-wrap{
-    display:flex;
-    justify-content:center;
-    margin:6px 0 20px;
-  }
-  .venn-caption{
-    display:flex;
-    justify-content:space-between;
-    font-family:var(--font-mono);
-    font-size:11px;
-    color:var(--text-faint);
-    padding:0 6px;
-    margin-top:-6px;
-  }
 
   .section-title{
     font-size:12px;
@@ -522,17 +507,6 @@
     <div class="card">
       <h2>Je momentopname</h2>
       <p class="lede">Gebaseerd op de bestanden die je hebt geüpload, op dit moment.</p>
-
-      <div class="venn-wrap">
-        <svg width="220" height="120" viewBox="0 0 220 120" id="venn-svg">
-          <circle cx="88" cy="60" r="46" fill="none" stroke="#6FE7DD" stroke-width="2" opacity="0.9"/>
-          <circle cx="132" cy="60" r="46" fill="none" stroke="#FF6F59" stroke-width="2" opacity="0.9"/>
-        </svg>
-      </div>
-      <div class="venn-caption">
-        <span>VOLGT JOU</span>
-        <span>JIJ VOLGT</span>
-      </div>
 
       <div class="stat-grid" style="margin-top:18px;">
         <div class="stat"><div class="num" id="stat-followers">–</div><div class="lbl">Volgers</div></div>
@@ -949,12 +923,6 @@
     $('stat-following').textContent = d.followingCount.toLocaleString('nl-NL');
     $('stat-mutual').textContent = d.mutualCount.toLocaleString('nl-NL');
     $('stat-notback').textContent = d.notFollowingBack.length.toLocaleString('nl-NL');
-
-    // Venn sizing (illustrative, not to scale)
-    const svg = $('venn-svg');
-    const overlapRatio = d.followingCount ? d.mutualCount / d.followingCount : 0;
-    const cx2 = 132 - Math.round(overlapRatio * 30); // pull circles closer if more overlap
-    svg.querySelectorAll('circle')[1].setAttribute('cx', String(cx2 >= 88 ? cx2 : 100));
 
     const previewList = $('notback-list');
     previewList.innerHTML = '';
